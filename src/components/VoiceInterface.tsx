@@ -47,34 +47,60 @@ const VoiceInterface = () => {
       <div className="flex-1 flex items-center justify-center p-8 relative z-10">
         <div className="flex flex-col items-center space-y-8">
           
-          {/* Aurora Logo Section with Dynamic Effects */}
+          {/* Aurora Logo Section with Integrated Dynamic Effects */}
           <div className="relative mb-8">
-            {/* Outer pulsing ring */}
-            <div className="absolute inset-0 w-80 h-80 rounded-full border-2 border-cyan-400/30 animate-ping"></div>
-            <div className="absolute inset-4 w-72 h-72 rounded-full border border-blue-400/20 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+            {/* Multiple layered pulsing rings for depth */}
+            <div className="absolute inset-0 w-80 h-80 rounded-full animate-ping opacity-20">
+              <div className="w-full h-full rounded-full bg-gradient-to-r from-cyan-400/30 to-blue-400/30"></div>
+            </div>
+            <div className="absolute inset-2 w-76 h-76 rounded-full animate-pulse opacity-30" style={{ animationDelay: '0.5s' }}>
+              <div className="w-full h-full rounded-full bg-gradient-to-r from-blue-400/20 to-purple-400/20"></div>
+            </div>
+            <div className="absolute inset-4 w-72 h-72 rounded-full animate-ping opacity-15" style={{ animationDelay: '1s' }}>
+              <div className="w-full h-full rounded-full bg-gradient-to-r from-purple-400/20 to-cyan-400/20"></div>
+            </div>
             
-            {/* Main Aurora Logo Container */}
-            <div className="relative w-80 h-80 rounded-full bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm border border-cyan-500/30 flex items-center justify-center shadow-2xl">
-              <img 
-                src="/lovable-uploads/5ca25dad-b4a9-4258-82ad-e4c2493a1a48.png" 
-                alt="Aurora AI Assistant" 
-                className="w-64 h-64 object-contain animate-pulse"
-              />
+            {/* Main Aurora Container with integrated glow effect */}
+            <div className="relative w-80 h-80 rounded-full bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm border border-cyan-500/20 flex items-center justify-center shadow-2xl overflow-hidden">
               
-              {/* Sound wave animations around the logo */}
-              <div className="absolute -left-8 top-1/2 transform -translate-y-1/2">
-                <div className="flex space-x-1">
-                  <div className="w-1 h-8 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
-                  <div className="w-1 h-12 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-1 h-6 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+              {/* Dynamic background glow that pulses with the image */}
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 animate-pulse rounded-full"></div>
+              <div className="absolute inset-0 bg-gradient-to-tl from-purple-500/5 via-cyan-500/5 to-blue-500/5 animate-pulse rounded-full" style={{ animationDelay: '1s' }}></div>
+              
+              {/* Aurora Image with integrated effects */}
+              <div className="relative z-10 w-64 h-64 rounded-full overflow-hidden">
+                {/* Animated overlay that creates the pulsing glow effect on the image */}
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 via-transparent to-blue-400/20 animate-pulse rounded-full mix-blend-overlay z-10"></div>
+                <div className="absolute inset-0 bg-gradient-to-tl from-purple-400/15 via-transparent to-cyan-400/15 animate-pulse rounded-full mix-blend-overlay z-10" style={{ animationDelay: '0.7s' }}></div>
+                
+                {/* The actual Aurora image */}
+                <img 
+                  src="/lovable-uploads/5ca25dad-b4a9-4258-82ad-e4c2493a1a48.png" 
+                  alt="Aurora AI Assistant" 
+                  className="w-full h-full object-cover rounded-full animate-pulse"
+                  style={{ animationDuration: '3s' }}
+                />
+                
+                {/* Subtle rotating gradient overlay for extra dynamism */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent animate-spin rounded-full mix-blend-overlay" style={{ animationDuration: '8s' }}></div>
+              </div>
+              
+              {/* Enhanced sound wave animations */}
+              <div className="absolute -left-12 top-1/2 transform -translate-y-1/2 z-20">
+                <div className="flex space-x-2">
+                  <div className="w-2 h-12 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full animate-pulse shadow-lg shadow-cyan-400/50" style={{ animationDelay: '0s' }}></div>
+                  <div className="w-2 h-20 bg-gradient-to-t from-blue-400 to-purple-400 rounded-full animate-pulse shadow-lg shadow-blue-400/50" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-2 h-8 bg-gradient-to-t from-purple-400 to-cyan-400 rounded-full animate-pulse shadow-lg shadow-purple-400/50" style={{ animationDelay: '0.4s' }}></div>
+                  <div className="w-2 h-16 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full animate-pulse shadow-lg shadow-cyan-400/50" style={{ animationDelay: '0.6s' }}></div>
                 </div>
               </div>
               
-              <div className="absolute -right-8 top-1/2 transform -translate-y-1/2">
-                <div className="flex space-x-1">
-                  <div className="w-1 h-6 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-                  <div className="w-1 h-12 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-1 h-8 bg-cyan-400 rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
+              <div className="absolute -right-12 top-1/2 transform -translate-y-1/2 z-20">
+                <div className="flex space-x-2">
+                  <div className="w-2 h-16 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full animate-pulse shadow-lg shadow-cyan-400/50" style={{ animationDelay: '0.6s' }}></div>
+                  <div className="w-2 h-8 bg-gradient-to-t from-purple-400 to-cyan-400 rounded-full animate-pulse shadow-lg shadow-purple-400/50" style={{ animationDelay: '0.4s' }}></div>
+                  <div className="w-2 h-20 bg-gradient-to-t from-blue-400 to-purple-400 rounded-full animate-pulse shadow-lg shadow-blue-400/50" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-2 h-12 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full animate-pulse shadow-lg shadow-cyan-400/50" style={{ animationDelay: '0s' }}></div>
                 </div>
               </div>
             </div>
