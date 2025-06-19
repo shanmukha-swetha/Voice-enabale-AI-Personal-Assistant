@@ -1,6 +1,6 @@
-
 import React, { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import WebhookIntegration from './WebhookIntegration';
 
 const VoiceInterface = () => {
   const { toast } = useToast();
@@ -35,19 +35,19 @@ const VoiceInterface = () => {
         </div>
       </div>
 
-      {/* Animated background elements */}
+      {/* n8n Webhook Integration */}
+      <WebhookIntegration agentId="agent_01jy34sj32eqwvbjjv6bmrhwxd" />
+
+      {/* ... keep existing code (animated background elements and main content) */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cyan-500 rounded-full filter blur-3xl" style={{ animation: 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl" style={{ animation: 'pulse 10s cubic-bezier(0.4, 0, 0.6, 1) infinite', animationDelay: '4s' }}></div>
       </div>
 
-      {/* Main Content Area - Centered with Aurora Logo */}
       <div className="flex-1 flex items-center justify-center p-8 relative z-10">
         <div className="flex flex-col items-center space-y-8">
           
-          {/* Aurora Logo Section with Controlled Pulse Cycle */}
           <div className="relative mb-8">
-            {/* Two distinct pulse rings with controlled timing */}
             <div className="absolute inset-0 w-80 h-80 rounded-full border-2 border-cyan-400/30" style={{ 
               animation: 'pulse 4s ease-in-out infinite',
               animationTimingFunction: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
@@ -58,21 +58,17 @@ const VoiceInterface = () => {
               animationTimingFunction: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
             }}></div>
             
-            {/* Main Aurora Container with synchronized fade cycle */}
             <div className="relative w-80 h-80 rounded-full bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm border border-cyan-500/20 flex items-center justify-center shadow-2xl overflow-hidden">
               
-              {/* Aurora Image with fade cycle */}
               <div className="relative z-10 w-64 h-64 rounded-full overflow-hidden" style={{
                 animation: 'pulse 6s ease-in-out infinite',
                 animationTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
               }}>
-                {/* Synchronized overlay that creates the fade effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 via-transparent to-blue-400/10 rounded-full mix-blend-overlay z-10" style={{ 
                   animation: 'pulse 6s ease-in-out infinite',
                   animationTimingFunction: 'cubic-bezier(0.4, 0, 0.6, 1)'
                 }}></div>
                 
-                {/* The actual Aurora image */}
                 <img 
                   src="/lovable-uploads/5ca25dad-b4a9-4258-82ad-e4c2493a1a48.png" 
                   alt="Aurora AI Assistant" 
@@ -80,7 +76,6 @@ const VoiceInterface = () => {
                 />
               </div>
               
-              {/* Sound wave animations with synchronized timing */}
               <div className="absolute -left-12 top-1/2 transform -translate-y-1/2 z-20">
                 <div className="flex space-x-2">
                   <div className="w-2 h-12 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full shadow-lg shadow-cyan-400/30" style={{ animation: 'pulse 2s ease-in-out infinite' }}></div>
@@ -101,7 +96,6 @@ const VoiceInterface = () => {
             </div>
           </div>
           
-          {/* ElevenLabs Widget - Centered */}
           <div className="flex justify-center">
             <elevenlabs-convai agent-id="agent_01jy34sj32eqwvbjjv6bmrhwxd"></elevenlabs-convai>
           </div>
