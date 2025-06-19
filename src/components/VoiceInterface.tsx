@@ -108,7 +108,6 @@ const VoiceInterface = () => {
           <div className="flex justify-center">
             <elevenlabs-convai 
               agent-id="agent_01jy34sj32eqwvbjjv6bmrhwxd"
-              style="display: block; border: none; background: transparent;"
             ></elevenlabs-convai>
           </div>
 
