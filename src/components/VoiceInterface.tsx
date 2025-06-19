@@ -17,14 +17,37 @@ const VoiceInterface = () => {
       document.head.appendChild(script);
     }
 
-    // Add aggressive CSS to hide all chat interfaces
-    const hideStyle = document.createElement('style');
-    hideStyle.textContent = `
-      /* Hide all potential chat interfaces */
+    // Ultra-aggressive CSS to block ALL possible chat interfaces, popups, and overlays
+    const ultraHideStyle = document.createElement('style');
+    ultraHideStyle.textContent = `
+      /* NUCLEAR OPTION - Hide everything that could be a chat/popup */
       [data-testid*="chat"],
       [data-testid*="message"],
       [data-testid*="input"],
       [data-testid*="text"],
+      [data-testid*="conversation"],
+      [data-testid*="dialog"],
+      [data-testid*="modal"],
+      [data-testid*="popup"],
+      [data-testid*="overlay"],
+      [class*="chat"],
+      [class*="message"],
+      [class*="input"],
+      [class*="text"],
+      [class*="conversation"],
+      [class*="dialog"],
+      [class*="modal"],
+      [class*="popup"],
+      [class*="overlay"],
+      [id*="chat"],
+      [id*="message"],
+      [id*="input"],
+      [id*="text"],
+      [id*="conversation"],
+      [id*="dialog"],
+      [id*="modal"],
+      [id*="popup"],
+      [id*="overlay"],
       .chat-container,
       .chat-window,
       .chat-interface,
@@ -37,67 +60,78 @@ const VoiceInterface = () => {
       .chat-input,
       .text-input,
       .input-container,
-      /* Hide ElevenLabs specific elements */
-      elevenlabs-convai div[style*="position: fixed"],
-      elevenlabs-convai div[style*="position: absolute"],
-      elevenlabs-convai div[style*="z-index"],
-      elevenlabs-convai div[style*="background"],
-      elevenlabs-convai div[style*="border"],
-      elevenlabs-convai div[style*="box-shadow"],
-      elevenlabs-convai div[style*="width"],
-      elevenlabs-convai div[style*="height"],
-      elevenlabs-convai > div > div:not([style*="display: flex"]),
-      elevenlabs-convai iframe,
-      /* Hide any white/light colored containers */
-      div[style*="background-color: white"],
-      div[style*="background-color: #fff"],
-      div[style*="background-color: #ffffff"],
-      div[style*="background: white"],
-      div[style*="background: #fff"],
-      div[style*="background: #ffffff"],
-      div[style*="background-color: rgb(255, 255, 255)"],
-      /* Hide text inputs */
+      /* Block all forms of inputs */
       input[type="text"],
-      input[placeholder*="message"],
-      input[placeholder*="type"],
-      input[placeholder*="chat"],
-      textarea[placeholder*="message"],
-      textarea[placeholder*="type"],
-      textarea[placeholder*="chat"],
-      /* Hide modals and overlays */
+      input[type="search"],
+      input[placeholder],
+      textarea,
+      [contenteditable="true"],
+      [role="textbox"],
+      [role="searchbox"],
+      [role="combobox"],
+      /* Block all overlays and modals */
       .modal,
       .overlay,
+      .popup,
+      .dialog,
       [role="dialog"],
       [role="modal"],
-      [role="textbox"],
-      /* Hide any element that might be a chat bubble or message */
-      div[style*="border-radius"][style*="padding"],
-      div[style*="border-radius"][style*="background"] {
+      [role="alertdialog"],
+      /* Block fixed/absolute positioned containers that could be popups */
+      div[style*="position: fixed"]:not([style*="pointer-events: none"]),
+      div[style*="position: absolute"]:not([style*="pointer-events: none"]),
+      div[style*="z-index: 9"]:not(elevenlabs-convai),
+      div[style*="z-index: 1"]:not(elevenlabs-convai),
+      /* Block white/light backgrounds that could be chat windows */
+      div[style*="background-color: white"]:not(elevenlabs-convai),
+      div[style*="background-color: #fff"]:not(elevenlabs-convai),
+      div[style*="background-color: #ffffff"]:not(elevenlabs-convai),
+      div[style*="background: white"]:not(elevenlabs-convai),
+      div[style*="background: #fff"]:not(elevenlabs-convai),
+      div[style*="background: #ffffff"]:not(elevenlabs-convai),
+      div[style*="background-color: rgb(255, 255, 255)"]:not(elevenlabs-convai),
+      /* Block iframes that could contain chat */
+      iframe:not([src*="elevenlabs"]),
+      /* Block any container with borders that could be chat bubbles */
+      div[style*="border-radius"][style*="padding"]:not(elevenlabs-convai *),
+      div[style*="border"][style*="background"]:not(elevenlabs-convai *),
+      div[style*="box-shadow"]:not(elevenlabs-convai *) {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
         pointer-events: none !important;
         position: absolute !important;
-        left: -9999px !important;
-        top: -9999px !important;
+        left: -99999px !important;
+        top: -99999px !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        z-index: -99999 !important;
       }
       
-      /* Ensure elevenlabs-convai only shows voice button */
+      /* Ensure elevenlabs-convai container is clean */
       elevenlabs-convai {
         background: transparent !important;
         border: none !important;
         position: relative !important;
+        overflow: visible !important;
       }
       
-      /* Hide everything except the microphone button */
-      elevenlabs-convai > * {
+      /* Hide ALL children of elevenlabs-convai except voice button */
+      elevenlabs-convai > *:not(button):not([role="button"]):not([style*="cursor: pointer"]) {
         display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        position: absolute !important;
+        left: -99999px !important;
+        top: -99999px !important;
       }
       
-      /* Show only the voice/microphone button */
+      /* Ensure voice button remains visible and functional */
       elevenlabs-convai button,
       elevenlabs-convai [role="button"],
-      elevenlabs-convai div[style*="cursor: pointer"] {
+      elevenlabs-convai [style*="cursor: pointer"] {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
@@ -105,136 +139,187 @@ const VoiceInterface = () => {
         position: relative !important;
         left: auto !important;
         top: auto !important;
+        z-index: 1 !important;
+      }
+
+      /* Block any element that might appear on top */
+      body > div:not(#root):not([data-sonner-toaster]):not([data-toast-viewport]),
+      html > div:not(body) {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+
+      /* Prevent any scrolling that might reveal hidden elements */
+      body {
+        overflow-x: hidden !important;
       }
     `;
-    document.head.appendChild(hideStyle);
+    document.head.appendChild(ultraHideStyle);
 
-    // Ultra-aggressive observer to kill any chat elements
-    const observer = new MutationObserver((mutations) => {
+    // Nuclear mutation observer - kills everything suspicious
+    const nuclearObserver = new MutationObserver((mutations) => {
       mutations.forEach(() => {
-        // Target all potential chat elements
-        const chatSelectors = [
-          '[data-testid*="chat"]',
-          '[data-testid*="message"]',
-          '[data-testid*="input"]',
-          '[data-testid*="text"]',
-          '.chat-container',
-          '.chat-window',
-          '.chat-interface',
-          '.text-chat',
-          '.message-container',
-          '.conversation-panel',
-          '.conversation-window',
-          '.chat-widget',
-          '.message-input',
-          '.chat-input',
-          '.text-input',
-          '.input-container',
-          'input[type="text"]',
-          'input[placeholder*="message"]',
-          'input[placeholder*="type"]',
-          'input[placeholder*="chat"]',
-          'textarea[placeholder*="message"]',
-          'textarea[placeholder*="type"]',
-          'textarea[placeholder*="chat"]',
-          'div[style*="background-color: white"]',
-          'div[style*="background-color: #fff"]',
-          'div[style*="background-color: #ffffff"]',
-          'div[style*="background: white"]',
-          'div[style*="background: #fff"]',
-          'div[style*="background: #ffffff"]',
-          'div[style*="background-color: rgb(255, 255, 255)"]',
-          '[role="dialog"]',
-          '[role="modal"]',
-          '[role="textbox"]'
+        // Kill any new elements that match suspicious patterns
+        const suspiciousSelectors = [
+          '[data-testid*="chat"]', '[data-testid*="message"]', '[data-testid*="input"]',
+          '[data-testid*="text"]', '[data-testid*="conversation"]', '[data-testid*="dialog"]',
+          '[data-testid*="modal"]', '[data-testid*="popup"]', '[data-testid*="overlay"]',
+          '[class*="chat"]', '[class*="message"]', '[class*="input"]', '[class*="text"]',
+          '[class*="conversation"]', '[class*="dialog"]', '[class*="modal"]',
+          '[class*="popup"]', '[class*="overlay"]', '[id*="chat"]', '[id*="message"]',
+          '[id*="input"]', '[id*="text"]', '[id*="conversation"]', '[id*="dialog"]',
+          '[id*="modal"]', '[id*="popup"]', '[id*="overlay"]',
+          'input[type="text"]', 'input[type="search"]', 'textarea',
+          '[contenteditable="true"]', '[role="textbox"]', '[role="searchbox"]',
+          '[role="combobox"]', '[role="dialog"]', '[role="modal"]', '[role="alertdialog"]',
+          'iframe:not([src*="elevenlabs"])'
         ];
 
-        chatSelectors.forEach(selector => {
+        suspiciousSelectors.forEach(selector => {
           const elements = document.querySelectorAll(selector);
           elements.forEach(element => {
+            if (!element.closest('elevenlabs-convai')) {
+              const htmlElement = element as HTMLElement;
+              htmlElement.style.display = 'none';
+              htmlElement.style.visibility = 'hidden';
+              htmlElement.style.opacity = '0';
+              htmlElement.style.pointerEvents = 'none';
+              htmlElement.style.position = 'absolute';
+              htmlElement.style.left = '-99999px';
+              htmlElement.style.top = '-99999px';
+              htmlElement.style.zIndex = '-99999';
+            }
+          });
+        });
+
+        // Kill any fixed/absolute positioned elements outside of our app
+        const positionedElements = document.querySelectorAll('div[style*="position: fixed"], div[style*="position: absolute"]');
+        positionedElements.forEach(element => {
+          if (!element.closest('#root') && !element.closest('elevenlabs-convai') && 
+              !element.hasAttribute('data-sonner-toaster') && !element.hasAttribute('data-toast-viewport')) {
             const htmlElement = element as HTMLElement;
             htmlElement.style.display = 'none';
             htmlElement.style.visibility = 'hidden';
             htmlElement.style.opacity = '0';
             htmlElement.style.pointerEvents = 'none';
             htmlElement.style.position = 'absolute';
-            htmlElement.style.left = '-9999px';
-            htmlElement.style.top = '-9999px';
-          });
+            htmlElement.style.left = '-99999px';
+            htmlElement.style.top = '-99999px';
+          }
         });
 
-        // Specifically target ElevenLabs widget children
+        // Specifically target any new elements added to elevenlabs-convai
         const convaiElements = document.querySelectorAll('elevenlabs-convai');
         convaiElements.forEach(convai => {
-          const children = convai.querySelectorAll('*');
+          const children = Array.from(convai.children);
           children.forEach(child => {
             const htmlChild = child as HTMLElement;
             // Hide everything except buttons
             if (!htmlChild.matches('button') && 
                 !htmlChild.matches('[role="button"]') && 
-                !htmlChild.style.cursor?.includes('pointer')) {
+                !htmlChild.style.cursor?.includes('pointer') &&
+                !htmlChild.innerHTML?.includes('🎤') &&
+                !htmlChild.innerHTML?.includes('mic')) {
               htmlChild.style.display = 'none';
               htmlChild.style.visibility = 'hidden';
               htmlChild.style.opacity = '0';
               htmlChild.style.pointerEvents = 'none';
+              htmlChild.style.position = 'absolute';
+              htmlChild.style.left = '-99999px';
+              htmlChild.style.top = '-99999px';
             }
           });
         });
 
-        // Kill any fixed/absolute positioned elements that look like chat windows
-        const fixedElements = document.querySelectorAll('div[style*="position: fixed"], div[style*="position: absolute"]');
-        fixedElements.forEach(element => {
-          const htmlElement = element as HTMLElement;
-          const computedStyle = window.getComputedStyle(htmlElement);
-          const hasWhiteBackground = computedStyle.backgroundColor === 'rgb(255, 255, 255)' || 
-                                   computedStyle.backgroundColor === 'white' ||
-                                   computedStyle.backgroundColor === '#fff' ||
-                                   computedStyle.backgroundColor === '#ffffff';
-          
-          if (hasWhiteBackground || 
-              htmlElement.innerHTML.includes('Send') ||
-              htmlElement.innerHTML.includes('message') ||
-              htmlElement.innerHTML.includes('Type') ||
-              htmlElement.querySelector('input') ||
-              htmlElement.querySelector('textarea') ||
-              htmlElement.querySelector('[role="textbox"]')) {
-            htmlElement.style.display = 'none';
-            htmlElement.style.visibility = 'hidden';
-            htmlElement.style.opacity = '0';
-            htmlElement.style.pointerEvents = 'none';
-            htmlElement.style.position = 'absolute';
-            htmlElement.style.left = '-9999px';
-            htmlElement.style.top = '-9999px';
+        // Kill any body children that aren't our app
+        const bodyChildren = Array.from(document.body.children);
+        bodyChildren.forEach(child => {
+          if (child.id !== 'root' && 
+              !child.hasAttribute('data-sonner-toaster') && 
+              !child.hasAttribute('data-toast-viewport') &&
+              !child.tagName.toLowerCase().includes('script') &&
+              !child.tagName.toLowerCase().includes('style')) {
+            const htmlChild = child as HTMLElement;
+            htmlChild.style.display = 'none';
+            htmlChild.style.visibility = 'hidden';
+            htmlChild.style.opacity = '0';
+            htmlChild.style.pointerEvents = 'none';
           }
         });
       });
     });
 
-    observer.observe(document.body, {
+    nuclearObserver.observe(document.body, {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['style', 'class', 'data-testid']
+      attributeFilter: ['style', 'class', 'data-testid', 'id', 'role']
     });
 
-    // Additional cleanup interval
-    const cleanupInterval = setInterval(() => {
-      const allDivs = document.querySelectorAll('div');
-      allDivs.forEach(div => {
-        if (div.innerHTML.includes('Send a message') || 
-            div.innerHTML.includes('Type a message') ||
-            div.querySelector('input[type="text"]') ||
-            div.querySelector('textarea')) {
-          div.style.display = 'none';
+    // Aggressive cleanup interval
+    const aggressiveCleanup = setInterval(() => {
+      // Remove any suspicious elements
+      const allElements = document.querySelectorAll('*');
+      allElements.forEach(element => {
+        const htmlElement = element as HTMLElement;
+        const text = htmlElement.textContent || '';
+        const innerHTML = htmlElement.innerHTML || '';
+        
+        // If it contains chat-related text and isn't part of our main app
+        if ((text.includes('Send') || text.includes('Type') || text.includes('message') || 
+             text.includes('chat') || innerHTML.includes('input') || innerHTML.includes('textarea')) &&
+            !htmlElement.closest('#root elevenlabs-convai button') &&
+            !htmlElement.closest('#root > div > div')) {
+          htmlElement.style.display = 'none';
+          htmlElement.style.visibility = 'hidden';
+          htmlElement.style.opacity = '0';
+          htmlElement.style.pointerEvents = 'none';
+          htmlElement.style.position = 'absolute';
+          htmlElement.style.left = '-99999px';
+          htmlElement.style.top = '-99999px';
         }
       });
-    }, 500);
+
+      // Block any new popups or overlays
+      const popups = document.querySelectorAll('[style*="z-index"]');
+      popups.forEach(popup => {
+        const htmlPopup = popup as HTMLElement;
+        const zIndex = parseInt(htmlPopup.style.zIndex || '0');
+        if (zIndex > 100 && !htmlPopup.closest('#root') && !htmlPopup.closest('elevenlabs-convai')) {
+          htmlPopup.style.display = 'none';
+          htmlPopup.style.visibility = 'hidden';
+          htmlPopup.style.opacity = '0';
+          htmlPopup.style.pointerEvents = 'none';
+        }
+      });
+    }, 100);
+
+    // Override any window.open calls
+    const originalOpen = window.open;
+    window.open = () => null;
+
+    // Block any modal/dialog creation
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tagName: string) {
+      const element = originalCreateElement.call(this, tagName);
+      if (tagName.toLowerCase() === 'dialog' || 
+          tagName.toLowerCase() === 'iframe' ||
+          element.getAttribute?.('role') === 'dialog' ||
+          element.getAttribute?.('role') === 'modal') {
+        (element as HTMLElement).style.display = 'none';
+      }
+      return element;
+    };
 
     return () => {
-      observer.disconnect();
-      clearInterval(cleanupInterval);
-      if (document.head.contains(hideStyle)) {
-        document.head.removeChild(hideStyle);
+      nuclearObserver.disconnect();
+      clearInterval(aggressiveCleanup);
+      window.open = originalOpen;
+      document.createElement = originalCreateElement;
+      if (document.head.contains(ultraHideStyle)) {
+        document.head.removeChild(ultraHideStyle);
       }
     };
   }, []);
