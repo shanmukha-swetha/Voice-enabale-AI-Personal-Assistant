@@ -17,16 +17,115 @@ const VoiceInterface = () => {
       document.head.appendChild(script);
     }
 
-    // Hide any default chat UI that might appear
-    const hideDefaultChatUI = () => {
-      const chatElements = document.querySelectorAll('[data-testid*="chat"], .chat-container, .chat-window');
+    // Add CSS to hide chat windows and text interfaces
+    const hideStyle = document.createElement('style');
+    hideStyle.textContent = `
+      /* Hide all potential chat interfaces */
+      [data-testid*="chat"],
+      .chat-container,
+      .chat-window,
+      .chat-interface,
+      .text-chat,
+      .message-container,
+      .conversation-panel,
+      div[style*="position: fixed"],
+      div[style*="position: absolute"] iframe,
+      /* Hide ElevenLabs chat components */
+      elevenlabs-convai div[style*="background"],
+      elevenlabs-convai div[style*="border"],
+      elevenlabs-convai div[style*="box-shadow"],
+      elevenlabs-convai > div > div,
+      /* Hide any white/light colored popup containers */
+      div[style*="background-color: white"],
+      div[style*="background-color: #fff"],
+      div[style*="background: white"],
+      div[style*="background: #fff"],
+      /* Hide text input areas */
+      input[placeholder*="message"],
+      textarea[placeholder*="message"],
+      .message-input,
+      .chat-input {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+      
+      /* Ensure only the voice button is visible */
+      elevenlabs-convai {
+        background: transparent !important;
+        border: none !important;
+      }
+      
+      elevenlabs-convai * {
+        background: transparent !important;
+      }
+      
+      /* Hide any modal or overlay */
+      .modal,
+      .overlay,
+      [role="dialog"],
+      [role="modal"] {
+        display: none !important;
+      }
+    `;
+    document.head.appendChild(hideStyle);
+
+    // Continuously monitor and hide any chat elements that appear
+    const observer = new MutationObserver(() => {
+      // Hide chat elements
+      const chatElements = document.querySelectorAll(`
+        [data-testid*="chat"],
+        .chat-container,
+        .chat-window,
+        .chat-interface,
+        .text-chat,
+        .message-container,
+        .conversation-panel,
+        input[placeholder*="message"],
+        textarea[placeholder*="message"],
+        .message-input,
+        .chat-input,
+        div[style*="background-color: white"],
+        div[style*="background-color: #fff"],
+        div[style*="background: white"],
+        div[style*="background: #fff"]
+      `);
+      
       chatElements.forEach(element => {
         (element as HTMLElement).style.display = 'none';
+        (element as HTMLElement).style.visibility = 'hidden';
+        (element as HTMLElement).style.opacity = '0';
+        (element as HTMLElement).style.pointerEvents = 'none';
       });
-    };
 
-    // Run after a short delay to ensure elements are loaded
-    setTimeout(hideDefaultChatUI, 1000);
+      // Also hide any fixed/absolute positioned divs that might be chat windows
+      const fixedElements = document.querySelectorAll('div[style*="position: fixed"], div[style*="position: absolute"]');
+      fixedElements.forEach(element => {
+        const htmlElement = element as HTMLElement;
+        if (htmlElement.style.backgroundColor === 'white' || 
+            htmlElement.style.backgroundColor === '#fff' ||
+            htmlElement.style.background === 'white' ||
+            htmlElement.style.background === '#fff' ||
+            htmlElement.innerHTML.includes('Send a message') ||
+            htmlElement.querySelector('input') ||
+            htmlElement.querySelector('textarea')) {
+          htmlElement.style.display = 'none';
+        }
+      });
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['style', 'class']
+    });
+
+    return () => {
+      observer.disconnect();
+      document.head.removeChild(hideStyle);
+    };
   }, []);
 
   return (
