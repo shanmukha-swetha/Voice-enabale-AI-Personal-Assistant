@@ -1,9 +1,9 @@
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 const VoiceInterface = () => {
   const { toast } = useToast();
+  const widgetRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     // Load the ElevenLabs script if it's not already loaded
@@ -15,8 +15,45 @@ const VoiceInterface = () => {
       script.async = true;
       script.type = 'text/javascript';
       document.head.appendChild(script);
+
+      script.onload = () => {
+        // Configure the widget to prevent new windows
+        if (widgetRef.current) {
+          const widget = widgetRef.current as any;
+          // Override the widget's default behavior to prevent popups
+          widget.setAttribute('data-no-popup', 'true');
+          widget.setAttribute('data-inline', 'true');
+        }
+      };
     }
-  }, []);
+
+    // Prevent any popups or new windows from opening
+    const originalOpen = window.open;
+    window.open = function(...args) {
+      console.log('Prevented popup from opening:', args);
+      toast({
+        title: "Direct Voice Mode",
+        description: "Voice interaction activated directly - no popups needed!",
+      });
+      return null;
+    };
+
+    // Cleanup function
+    return () => {
+      window.open = originalOpen;
+    };
+  }, [toast]);
+
+  const handleWidgetInteraction = (event: any) => {
+    // Prevent default popup behavior
+    event.preventDefault();
+    event.stopPropagation();
+    
+    toast({
+      title: "Aurora is listening",
+      description: "Start speaking now - Aurora is ready to help!",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white flex flex-col relative overflow-hidden">
@@ -44,6 +81,7 @@ const VoiceInterface = () => {
       <div className="flex-1 flex items-center justify-center p-8 relative z-10">
         <div className="flex flex-col items-center space-y-8">
           
+          {/* Main Circular Interface */}
           <div className="relative mb-8">
             <div className="absolute inset-0 w-80 h-80 rounded-full border-2 border-cyan-400/30 animate-pulse"></div>
             <div className="absolute inset-4 w-72 h-72 rounded-full border border-blue-400/20 animate-pulse" style={{ animationDelay: '2s' }}></div>
@@ -60,6 +98,7 @@ const VoiceInterface = () => {
                 />
               </div>
               
+              {/* Left and Right Sound Bars */}
               <div className="absolute -left-12 top-1/2 transform -translate-y-1/2 z-20">
                 <div className="flex space-x-2">
                   <div className="w-2 h-12 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full shadow-lg shadow-cyan-400/30 animate-pulse"></div>
@@ -80,19 +119,40 @@ const VoiceInterface = () => {
             </div>
           </div>
           
-          {/* Voice-only ElevenLabs Widget */}
-          <div className="flex justify-center">
+          {/* Enhanced ElevenLabs Widget with popup prevention */}
+          <div className="flex justify-center" onClick={handleWidgetInteraction}>
             <elevenlabs-convai 
+              ref={widgetRef}
               agent-id="agent_01jy34sj32eqwvbjjv6bmrhwxd"
+              data-no-popup="true"
+              data-inline="true"
+              style={{ 
+                '--el-widget-popup': 'none',
+                '--el-widget-modal': 'none'
+              } as React.CSSProperties}
             ></elevenlabs-convai>
           </div>
 
           <div className="text-center mt-4">
             <p className="text-cyan-400 text-sm font-medium">Click the button above to start talking with Aurora</p>
-            <p className="text-slate-400 text-xs mt-1">Voice conversation only</p>
+            <p className="text-slate-400 text-xs mt-1">Direct voice conversation - no popups</p>
           </div>
         </div>
       </div>
+
+      {/* Additional CSS to prevent popups */}
+      <style jsx>{`
+        elevenlabs-convai::part(popup),
+        elevenlabs-convai::part(modal),
+        elevenlabs-convai::part(overlay) {
+          display: none !important;
+        }
+        
+        elevenlabs-convai {
+          --el-popup-display: none;
+          --el-modal-display: none;
+        }
+      `}</style>
     </div>
   );
 };
