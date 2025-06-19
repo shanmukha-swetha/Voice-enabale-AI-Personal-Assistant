@@ -17,75 +17,30 @@ const VoiceInterface = () => {
       document.head.appendChild(script);
 
       script.onload = () => {
-        // Additional configuration after script loads
-        setTimeout(() => {
-          const widgets = document.querySelectorAll('elevenlabs-convai');
-          widgets.forEach((widget: any) => {
-            // Override widget methods to prevent popups
-            if (widget.shadowRoot) {
-              const style = document.createElement('style');
-              style.textContent = `
-                .popup, .modal, .overlay { display: none !important; }
-              `;
-              widget.shadowRoot.appendChild(style);
-            }
-          });
-        }, 1000);
+        console.log('ElevenLabs script loaded successfully');
+        toast({
+          title: "Aurora Voice Ready",
+          description: "Click the voice button to start talking with Aurora!",
+        });
       };
     }
 
-    // Enhanced popup prevention
+    // Minimal popup prevention - only override window.open
     const originalOpen = window.open;
-    const originalShowModal = HTMLDialogElement.prototype.showModal;
     
     window.open = function(...args) {
-      console.log('Prevented popup from opening:', args);
+      console.log('Prevented popup, activating voice directly');
       toast({
         title: "Aurora is listening",
-        description: "Start speaking now - voice activated directly!",
+        description: "Voice activated - start speaking now!",
       });
       return null;
     };
 
-    // Override dialog showModal as well
-    HTMLDialogElement.prototype.showModal = function() {
-      console.log('Prevented modal from opening');
-      toast({
-        title: "Aurora is listening",
-        description: "Voice interaction activated!",
-      });
-    };
-
-    // Cleanup function
     return () => {
       window.open = originalOpen;
-      HTMLDialogElement.prototype.showModal = originalShowModal;
     };
   }, [toast]);
-
-  const handleWidgetClick = (event: any) => {
-    // Prevent any default popup behavior
-    event.preventDefault();
-    event.stopPropagation();
-    
-    toast({
-      title: "Aurora is ready",
-      description: "Voice interaction starting - speak now!",
-    });
-
-    // Try to trigger voice directly
-    setTimeout(() => {
-      const widget = event.target.closest('elevenlabs-convai');
-      if (widget) {
-        // Simulate voice activation without popup
-        const clickEvent = new MouseEvent('click', {
-          bubbles: true,
-          cancelable: true,
-        });
-        widget.dispatchEvent(clickEvent);
-      }
-    }, 100);
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white flex flex-col relative overflow-hidden">
@@ -151,52 +106,19 @@ const VoiceInterface = () => {
             </div>
           </div>
           
-          {/* Enhanced ElevenLabs Widget with popup prevention */}
+          {/* ElevenLabs Widget - Restored and Visible */}
           <div className="flex justify-center">
             <elevenlabs-convai 
               agent-id="agent_01jy34sj32eqwvbjjv6bmrhwxd"
-              data-no-popup="true"
-              data-inline="true"
-              onClick={handleWidgetClick}
-              style={{ 
-                '--el-widget-popup': 'none',
-                '--el-widget-modal': 'none',
-                '--el-popup-display': 'none',
-                '--el-modal-display': 'none'
-              } as React.CSSProperties}
-            ></elevenlabs-convai>
+            />
           </div>
 
           <div className="text-center mt-4">
-            <p className="text-cyan-400 text-sm font-medium">Click the button above to start talking with Aurora</p>
-            <p className="text-slate-400 text-xs mt-1">Direct voice conversation - no popups</p>
+            <p className="text-cyan-400 text-sm font-medium">Click "Talk to Aurora" above to start your conversation</p>
+            <p className="text-slate-400 text-xs mt-1">Direct voice interaction enabled</p>
           </div>
         </div>
       </div>
-
-      {/* Global CSS to prevent popups */}
-      <style dangerouslySetInnerHTML={{
-        __html: `
-          elevenlabs-convai::part(popup),
-          elevenlabs-convai::part(modal),
-          elevenlabs-convai::part(overlay) {
-            display: none !important;
-          }
-          
-          elevenlabs-convai {
-            --el-popup-display: none !important;
-            --el-modal-display: none !important;
-          }
-
-          /* Hide any modal or popup elements */
-          .elevenlabs-modal,
-          .elevenlabs-popup,
-          [role="dialog"],
-          [aria-modal="true"] {
-            display: none !important;
-          }
-        `
-      }} />
     </div>
   );
 };
