@@ -16,17 +16,6 @@ const VoiceInterface = () => {
       script.type = 'text/javascript';
       document.head.appendChild(script);
     }
-
-    // Hide any default chat UI that might appear
-    const hideDefaultChatUI = () => {
-      const chatElements = document.querySelectorAll('[data-testid*="chat"], .chat-container, .chat-window');
-      chatElements.forEach(element => {
-        (element as HTMLElement).style.display = 'none';
-      });
-    };
-
-    // Run after a short delay to ensure elements are loaded
-    setTimeout(hideDefaultChatUI, 1000);
   }, []);
 
   return (
@@ -48,34 +37,21 @@ const VoiceInterface = () => {
 
       {/* Animated Background Elements */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cyan-500 rounded-full filter blur-3xl" style={{ animation: 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl" style={{ animation: 'pulse 10s cubic-bezier(0.4, 0, 0.6, 1) infinite', animationDelay: '4s' }}></div>
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cyan-500 rounded-full filter blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
       </div>
 
       <div className="flex-1 flex items-center justify-center p-8 relative z-10">
         <div className="flex flex-col items-center space-y-8">
           
           <div className="relative mb-8">
-            <div className="absolute inset-0 w-80 h-80 rounded-full border-2 border-cyan-400/30" style={{ 
-              animation: 'pulse 4s ease-in-out infinite',
-              animationTimingFunction: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-            }}></div>
-            <div className="absolute inset-4 w-72 h-72 rounded-full border border-blue-400/20" style={{ 
-              animation: 'pulse 4s ease-in-out infinite', 
-              animationDelay: '2s',
-              animationTimingFunction: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-            }}></div>
+            <div className="absolute inset-0 w-80 h-80 rounded-full border-2 border-cyan-400/30 animate-pulse"></div>
+            <div className="absolute inset-4 w-72 h-72 rounded-full border border-blue-400/20 animate-pulse" style={{ animationDelay: '2s' }}></div>
             
             <div className="relative w-80 h-80 rounded-full bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm border border-cyan-500/20 flex items-center justify-center shadow-2xl overflow-hidden">
               
-              <div className="relative z-10 w-64 h-64 rounded-full overflow-hidden" style={{
-                animation: 'pulse 6s ease-in-out infinite',
-                animationTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
-              }}>
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 via-transparent to-blue-400/10 rounded-full mix-blend-overlay z-10" style={{ 
-                  animation: 'pulse 6s ease-in-out infinite',
-                  animationTimingFunction: 'cubic-bezier(0.4, 0, 0.6, 1)'
-                }}></div>
+              <div className="relative z-10 w-64 h-64 rounded-full overflow-hidden animate-pulse">
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 via-transparent to-blue-400/10 rounded-full mix-blend-overlay z-10 animate-pulse"></div>
                 
                 <img 
                   src="/lovable-uploads/5ca25dad-b4a9-4258-82ad-e4c2493a1a48.png" 
@@ -86,19 +62,19 @@ const VoiceInterface = () => {
               
               <div className="absolute -left-12 top-1/2 transform -translate-y-1/2 z-20">
                 <div className="flex space-x-2">
-                  <div className="w-2 h-12 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full shadow-lg shadow-cyan-400/30" style={{ animation: 'pulse 2s ease-in-out infinite' }}></div>
-                  <div className="w-2 h-20 bg-gradient-to-t from-blue-400 to-purple-400 rounded-full shadow-lg shadow-blue-400/30" style={{ animation: 'pulse 2s ease-in-out infinite', animationDelay: '0.3s' }}></div>
-                  <div className="w-2 h-8 bg-gradient-to-t from-purple-400 to-cyan-400 rounded-full shadow-lg shadow-purple-400/30" style={{ animation: 'pulse 2s ease-in-out infinite', animationDelay: '0.6s' }}></div>
-                  <div className="w-2 h-16 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full shadow-lg shadow-cyan-400/30" style={{ animation: 'pulse 2s ease-in-out infinite', animationDelay: '0.9s' }}></div>
+                  <div className="w-2 h-12 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full shadow-lg shadow-cyan-400/30 animate-pulse"></div>
+                  <div className="w-2 h-20 bg-gradient-to-t from-blue-400 to-purple-400 rounded-full shadow-lg shadow-blue-400/30 animate-pulse" style={{ animationDelay: '0.3s' }}></div>
+                  <div className="w-2 h-8 bg-gradient-to-t from-purple-400 to-cyan-400 rounded-full shadow-lg shadow-purple-400/30 animate-pulse" style={{ animationDelay: '0.6s' }}></div>
+                  <div className="w-2 h-16 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full shadow-lg shadow-cyan-400/30 animate-pulse" style={{ animationDelay: '0.9s' }}></div>
                 </div>
               </div>
               
               <div className="absolute -right-12 top-1/2 transform -translate-y-1/2 z-20">
                 <div className="flex space-x-2">
-                  <div className="w-2 h-16 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full shadow-lg shadow-cyan-400/30" style={{ animation: 'pulse 2s ease-in-out infinite', animationDelay: '0.9s' }}></div>
-                  <div className="w-2 h-8 bg-gradient-to-t from-purple-400 to-cyan-400 rounded-full shadow-lg shadow-purple-400/30" style={{ animation: 'pulse 2s ease-in-out infinite', animationDelay: '0.6s' }}></div>
-                  <div className="w-2 h-20 bg-gradient-to-t from-blue-400 to-purple-400 rounded-full shadow-lg shadow-blue-400/30" style={{ animation: 'pulse 2s ease-in-out infinite', animationDelay: '0.3s' }}></div>
-                  <div className="w-2 h-12 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full shadow-lg shadow-cyan-400/30" style={{ animation: 'pulse 2s ease-in-out infinite' }}></div>
+                  <div className="w-2 h-16 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full shadow-lg shadow-cyan-400/30 animate-pulse" style={{ animationDelay: '0.9s' }}></div>
+                  <div className="w-2 h-8 bg-gradient-to-t from-purple-400 to-cyan-400 rounded-full shadow-lg shadow-purple-400/30 animate-pulse" style={{ animationDelay: '0.6s' }}></div>
+                  <div className="w-2 h-20 bg-gradient-to-t from-blue-400 to-purple-400 rounded-full shadow-lg shadow-blue-400/30 animate-pulse" style={{ animationDelay: '0.3s' }}></div>
+                  <div className="w-2 h-12 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full shadow-lg shadow-cyan-400/30 animate-pulse"></div>
                 </div>
               </div>
             </div>
@@ -113,7 +89,7 @@ const VoiceInterface = () => {
 
           <div className="text-center mt-4">
             <p className="text-cyan-400 text-sm font-medium">Click the button above to start talking with Aurora</p>
-            <p className="text-slate-400 text-xs mt-1">Voice conversation only - no chat windows</p>
+            <p className="text-slate-400 text-xs mt-1">Voice conversation only</p>
           </div>
         </div>
       </div>
