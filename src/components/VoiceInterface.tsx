@@ -22,15 +22,15 @@ const VoiceInterface = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white flex flex-col relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cyan-500 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cyan-500 rounded-full filter blur-3xl" style={{ animation: 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl" style={{ animation: 'pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite', animationDelay: '2s' }}></div>
       </div>
 
       {/* Header */}
       <div className="bg-slate-800/50 backdrop-blur-sm border-b border-cyan-500/20 p-4 relative z-10">
         <div className="max-w-4xl mx-auto flex items-center justify-center">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center animate-pulse">
+            <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center" style={{ animation: 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}>
               <span className="text-white font-bold text-lg">A</span>
             </div>
             <div>
@@ -49,58 +49,58 @@ const VoiceInterface = () => {
           
           {/* Aurora Logo Section with Integrated Dynamic Effects */}
           <div className="relative mb-8">
-            {/* Multiple layered pulsing rings for depth */}
-            <div className="absolute inset-0 w-80 h-80 rounded-full animate-ping opacity-20">
-              <div className="w-full h-full rounded-full bg-gradient-to-r from-cyan-400/30 to-blue-400/30"></div>
+            {/* Multiple layered gentle breathing rings for depth */}
+            <div className="absolute inset-0 w-80 h-80 rounded-full opacity-15" style={{ animation: 'pulse 6s ease-in-out infinite' }}>
+              <div className="w-full h-full rounded-full bg-gradient-to-r from-cyan-400/20 to-blue-400/20"></div>
             </div>
-            <div className="absolute inset-2 w-76 h-76 rounded-full animate-pulse opacity-30" style={{ animationDelay: '0.5s' }}>
-              <div className="w-full h-full rounded-full bg-gradient-to-r from-blue-400/20 to-purple-400/20"></div>
+            <div className="absolute inset-2 w-76 h-76 rounded-full opacity-20" style={{ animation: 'pulse 7s ease-in-out infinite', animationDelay: '1s' }}>
+              <div className="w-full h-full rounded-full bg-gradient-to-r from-blue-400/15 to-purple-400/15"></div>
             </div>
-            <div className="absolute inset-4 w-72 h-72 rounded-full animate-ping opacity-15" style={{ animationDelay: '1s' }}>
-              <div className="w-full h-full rounded-full bg-gradient-to-r from-purple-400/20 to-cyan-400/20"></div>
+            <div className="absolute inset-4 w-72 h-72 rounded-full opacity-10" style={{ animation: 'pulse 8s ease-in-out infinite', animationDelay: '2s' }}>
+              <div className="w-full h-full rounded-full bg-gradient-to-r from-purple-400/15 to-cyan-400/15"></div>
             </div>
             
             {/* Main Aurora Container with integrated glow effect */}
             <div className="relative w-80 h-80 rounded-full bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm border border-cyan-500/20 flex items-center justify-center shadow-2xl overflow-hidden">
               
-              {/* Dynamic background glow that pulses with the image */}
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 animate-pulse rounded-full"></div>
-              <div className="absolute inset-0 bg-gradient-to-tl from-purple-500/5 via-cyan-500/5 to-blue-500/5 animate-pulse rounded-full" style={{ animationDelay: '1s' }}></div>
+              {/* Dynamic background glow that breathes with the image */}
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/8 via-blue-500/8 to-purple-500/8 rounded-full" style={{ animation: 'pulse 5s ease-in-out infinite' }}></div>
+              <div className="absolute inset-0 bg-gradient-to-tl from-purple-500/5 via-cyan-500/5 to-blue-500/5 rounded-full" style={{ animation: 'pulse 6s ease-in-out infinite', animationDelay: '2s' }}></div>
               
               {/* Aurora Image with integrated effects */}
               <div className="relative z-10 w-64 h-64 rounded-full overflow-hidden">
-                {/* Animated overlay that creates the pulsing glow effect on the image */}
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 via-transparent to-blue-400/20 animate-pulse rounded-full mix-blend-overlay z-10"></div>
-                <div className="absolute inset-0 bg-gradient-to-tl from-purple-400/15 via-transparent to-cyan-400/15 animate-pulse rounded-full mix-blend-overlay z-10" style={{ animationDelay: '0.7s' }}></div>
+                {/* Animated overlay that creates the gentle glow effect on the image */}
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/15 via-transparent to-blue-400/15 rounded-full mix-blend-overlay z-10" style={{ animation: 'pulse 4s ease-in-out infinite' }}></div>
+                <div className="absolute inset-0 bg-gradient-to-tl from-purple-400/10 via-transparent to-cyan-400/10 rounded-full mix-blend-overlay z-10" style={{ animation: 'pulse 5s ease-in-out infinite', animationDelay: '1.5s' }}></div>
                 
                 {/* The actual Aurora image */}
                 <img 
                   src="/lovable-uploads/5ca25dad-b4a9-4258-82ad-e4c2493a1a48.png" 
                   alt="Aurora AI Assistant" 
-                  className="w-full h-full object-cover rounded-full animate-pulse"
-                  style={{ animationDuration: '3s' }}
+                  className="w-full h-full object-cover rounded-full"
+                  style={{ animation: 'pulse 6s ease-in-out infinite' }}
                 />
                 
                 {/* Subtle rotating gradient overlay for extra dynamism */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent animate-spin rounded-full mix-blend-overlay" style={{ animationDuration: '8s' }}></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/8 to-transparent rounded-full mix-blend-overlay" style={{ animation: 'spin 20s linear infinite' }}></div>
               </div>
               
-              {/* Enhanced sound wave animations */}
+              {/* Enhanced sound wave animations with slower, more elegant movement */}
               <div className="absolute -left-12 top-1/2 transform -translate-y-1/2 z-20">
                 <div className="flex space-x-2">
-                  <div className="w-2 h-12 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full animate-pulse shadow-lg shadow-cyan-400/50" style={{ animationDelay: '0s' }}></div>
-                  <div className="w-2 h-20 bg-gradient-to-t from-blue-400 to-purple-400 rounded-full animate-pulse shadow-lg shadow-blue-400/50" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-2 h-8 bg-gradient-to-t from-purple-400 to-cyan-400 rounded-full animate-pulse shadow-lg shadow-purple-400/50" style={{ animationDelay: '0.4s' }}></div>
-                  <div className="w-2 h-16 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full animate-pulse shadow-lg shadow-cyan-400/50" style={{ animationDelay: '0.6s' }}></div>
+                  <div className="w-2 h-12 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full shadow-lg shadow-cyan-400/30" style={{ animation: 'pulse 3s ease-in-out infinite' }}></div>
+                  <div className="w-2 h-20 bg-gradient-to-t from-blue-400 to-purple-400 rounded-full shadow-lg shadow-blue-400/30" style={{ animation: 'pulse 3.5s ease-in-out infinite', animationDelay: '0.5s' }}></div>
+                  <div className="w-2 h-8 bg-gradient-to-t from-purple-400 to-cyan-400 rounded-full shadow-lg shadow-purple-400/30" style={{ animation: 'pulse 4s ease-in-out infinite', animationDelay: '1s' }}></div>
+                  <div className="w-2 h-16 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full shadow-lg shadow-cyan-400/30" style={{ animation: 'pulse 3.2s ease-in-out infinite', animationDelay: '1.5s' }}></div>
                 </div>
               </div>
               
               <div className="absolute -right-12 top-1/2 transform -translate-y-1/2 z-20">
                 <div className="flex space-x-2">
-                  <div className="w-2 h-16 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full animate-pulse shadow-lg shadow-cyan-400/50" style={{ animationDelay: '0.6s' }}></div>
-                  <div className="w-2 h-8 bg-gradient-to-t from-purple-400 to-cyan-400 rounded-full animate-pulse shadow-lg shadow-purple-400/50" style={{ animationDelay: '0.4s' }}></div>
-                  <div className="w-2 h-20 bg-gradient-to-t from-blue-400 to-purple-400 rounded-full animate-pulse shadow-lg shadow-blue-400/50" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-2 h-12 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full animate-pulse shadow-lg shadow-cyan-400/50" style={{ animationDelay: '0s' }}></div>
+                  <div className="w-2 h-16 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full shadow-lg shadow-cyan-400/30" style={{ animation: 'pulse 3.2s ease-in-out infinite', animationDelay: '1.5s' }}></div>
+                  <div className="w-2 h-8 bg-gradient-to-t from-purple-400 to-cyan-400 rounded-full shadow-lg shadow-purple-400/30" style={{ animation: 'pulse 4s ease-in-out infinite', animationDelay: '1s' }}></div>
+                  <div className="w-2 h-20 bg-gradient-to-t from-blue-400 to-purple-400 rounded-full shadow-lg shadow-blue-400/30" style={{ animation: 'pulse 3.5s ease-in-out infinite', animationDelay: '0.5s' }}></div>
+                  <div className="w-2 h-12 bg-gradient-to-t from-cyan-400 to-blue-400 rounded-full shadow-lg shadow-cyan-400/30" style={{ animation: 'pulse 3s ease-in-out infinite' }}></div>
                 </div>
               </div>
             </div>
