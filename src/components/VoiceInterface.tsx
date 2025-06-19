@@ -1,7 +1,6 @@
 
 import React, { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import WebhookIntegration from './WebhookIntegration';
 
 const VoiceInterface = () => {
   const { toast } = useToast();
@@ -19,10 +18,6 @@ const VoiceInterface = () => {
 
       script.onload = () => {
         console.log('ElevenLabs script loaded successfully');
-        toast({
-          title: "Aurora Voice Ready",
-          description: "Click the voice button to start talking with Aurora!",
-        });
       };
     }
 
@@ -31,10 +26,6 @@ const VoiceInterface = () => {
     
     window.open = function(...args) {
       console.log('Prevented popup, activating voice directly');
-      toast({
-        title: "Aurora is listening",
-        description: "Voice activated - start speaking now!",
-      });
       return null;
     };
 
@@ -45,7 +36,7 @@ const VoiceInterface = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white flex flex-col relative overflow-hidden">
-      {/* Top Left Aurora Logo and Status */}
+      {/* Top Left Aurora Logo */}
       <div className="absolute top-6 left-6 flex items-center space-x-3 z-30">
         <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-cyan-400/30">
           <img 
@@ -54,14 +45,7 @@ const VoiceInterface = () => {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="flex flex-col">
-          <span className="text-xl font-bold tracking-wider text-cyan-400">AURORA</span>
-          <span className="text-xs text-green-400 font-medium">VOICE READY</span>
-        </div>
       </div>
-
-      {/* WebhookIntegration Component */}
-      <WebhookIntegration agentId="agent_01jy34sj32eqwvbjjv6bmrhwxd" />
 
       {/* Animated Background Elements */}
       <div className="absolute inset-0 opacity-10">
@@ -110,16 +94,11 @@ const VoiceInterface = () => {
             </div>
           </div>
           
-          {/* ElevenLabs Widget - Restored and Visible */}
+          {/* ElevenLabs Widget */}
           <div className="flex justify-center">
             <elevenlabs-convai 
               agent-id="agent_01jy34sj32eqwvbjjv6bmrhwxd"
             />
-          </div>
-
-          <div className="text-center mt-4">
-            <p className="text-cyan-400 text-sm font-medium">Click "Talk to Aurora" above to start your conversation</p>
-            <p className="text-slate-400 text-xs mt-1">Direct voice interaction enabled</p>
           </div>
         </div>
       </div>
