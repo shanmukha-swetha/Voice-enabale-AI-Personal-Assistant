@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+
+import React, { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 const VoiceInterface = () => {
   const { toast } = useToast();
-  const widgetRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     // Load the ElevenLabs script if it's not already loaded
@@ -17,42 +17,74 @@ const VoiceInterface = () => {
       document.head.appendChild(script);
 
       script.onload = () => {
-        // Configure the widget to prevent new windows
-        if (widgetRef.current) {
-          const widget = widgetRef.current as any;
-          // Override the widget's default behavior to prevent popups
-          widget.setAttribute('data-no-popup', 'true');
-          widget.setAttribute('data-inline', 'true');
-        }
+        // Additional configuration after script loads
+        setTimeout(() => {
+          const widgets = document.querySelectorAll('elevenlabs-convai');
+          widgets.forEach((widget: any) => {
+            // Override widget methods to prevent popups
+            if (widget.shadowRoot) {
+              const style = document.createElement('style');
+              style.textContent = `
+                .popup, .modal, .overlay { display: none !important; }
+              `;
+              widget.shadowRoot.appendChild(style);
+            }
+          });
+        }, 1000);
       };
     }
 
-    // Prevent any popups or new windows from opening
+    // Enhanced popup prevention
     const originalOpen = window.open;
+    const originalShowModal = HTMLDialogElement.prototype.showModal;
+    
     window.open = function(...args) {
       console.log('Prevented popup from opening:', args);
       toast({
-        title: "Direct Voice Mode",
-        description: "Voice interaction activated directly - no popups needed!",
+        title: "Aurora is listening",
+        description: "Start speaking now - voice activated directly!",
       });
       return null;
+    };
+
+    // Override dialog showModal as well
+    HTMLDialogElement.prototype.showModal = function() {
+      console.log('Prevented modal from opening');
+      toast({
+        title: "Aurora is listening",
+        description: "Voice interaction activated!",
+      });
     };
 
     // Cleanup function
     return () => {
       window.open = originalOpen;
+      HTMLDialogElement.prototype.showModal = originalShowModal;
     };
   }, [toast]);
 
-  const handleWidgetInteraction = (event: any) => {
-    // Prevent default popup behavior
+  const handleWidgetClick = (event: any) => {
+    // Prevent any default popup behavior
     event.preventDefault();
     event.stopPropagation();
     
     toast({
-      title: "Aurora is listening",
-      description: "Start speaking now - Aurora is ready to help!",
+      title: "Aurora is ready",
+      description: "Voice interaction starting - speak now!",
     });
+
+    // Try to trigger voice directly
+    setTimeout(() => {
+      const widget = event.target.closest('elevenlabs-convai');
+      if (widget) {
+        // Simulate voice activation without popup
+        const clickEvent = new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+        });
+        widget.dispatchEvent(clickEvent);
+      }
+    }, 100);
   };
 
   return (
@@ -120,15 +152,17 @@ const VoiceInterface = () => {
           </div>
           
           {/* Enhanced ElevenLabs Widget with popup prevention */}
-          <div className="flex justify-center" onClick={handleWidgetInteraction}>
+          <div className="flex justify-center">
             <elevenlabs-convai 
-              ref={widgetRef}
               agent-id="agent_01jy34sj32eqwvbjjv6bmrhwxd"
               data-no-popup="true"
               data-inline="true"
+              onClick={handleWidgetClick}
               style={{ 
                 '--el-widget-popup': 'none',
-                '--el-widget-modal': 'none'
+                '--el-widget-modal': 'none',
+                '--el-popup-display': 'none',
+                '--el-modal-display': 'none'
               } as React.CSSProperties}
             ></elevenlabs-convai>
           </div>
@@ -140,19 +174,29 @@ const VoiceInterface = () => {
         </div>
       </div>
 
-      {/* Additional CSS to prevent popups */}
-      <style jsx>{`
-        elevenlabs-convai::part(popup),
-        elevenlabs-convai::part(modal),
-        elevenlabs-convai::part(overlay) {
-          display: none !important;
-        }
-        
-        elevenlabs-convai {
-          --el-popup-display: none;
-          --el-modal-display: none;
-        }
-      `}</style>
+      {/* Global CSS to prevent popups */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          elevenlabs-convai::part(popup),
+          elevenlabs-convai::part(modal),
+          elevenlabs-convai::part(overlay) {
+            display: none !important;
+          }
+          
+          elevenlabs-convai {
+            --el-popup-display: none !important;
+            --el-modal-display: none !important;
+          }
+
+          /* Hide any modal or popup elements */
+          .elevenlabs-modal,
+          .elevenlabs-popup,
+          [role="dialog"],
+          [aria-modal="true"] {
+            display: none !important;
+          }
+        `
+      }} />
     </div>
   );
 };
