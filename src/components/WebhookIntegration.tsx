@@ -15,6 +15,12 @@ const WebhookIntegration = ({ agentId }: WebhookIntegrationProps) => {
     const handleConversationEvent = async (event: any) => {
       if (!webhookUrl) return;
 
+      // Show "working on it" message instead of "sending to n8n"
+      toast({
+        title: "Working on it",
+        description: "Processing your request...",
+      });
+
       const conversationData = {
         agentId,
         timestamp: new Date().toISOString(),
@@ -51,7 +57,7 @@ const WebhookIntegration = ({ agentId }: WebhookIntegrationProps) => {
       window.removeEventListener('elevenlabs-message', handleConversationEvent);
       window.removeEventListener('elevenlabs-response', handleConversationEvent);
     };
-  }, [webhookUrl, agentId]);
+  }, [webhookUrl, agentId, toast]);
 
   const handleWebhookUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWebhookUrl(e.target.value);
@@ -75,6 +81,11 @@ const WebhookIntegration = ({ agentId }: WebhookIntegrationProps) => {
       });
       return;
     }
+
+    toast({
+      title: "Working on it",
+      description: "Testing connection...",
+    });
 
     try {
       await fetch(webhookUrl, {

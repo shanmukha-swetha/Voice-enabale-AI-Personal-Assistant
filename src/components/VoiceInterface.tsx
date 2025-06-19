@@ -1,6 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import WebhookIntegration from './WebhookIntegration';
 
 const VoiceInterface = () => {
   const { toast } = useToast();
@@ -58,6 +59,9 @@ const VoiceInterface = () => {
           <span className="text-xs text-green-400 font-medium">VOICE READY</span>
         </div>
       </div>
+
+      {/* WebhookIntegration Component */}
+      <WebhookIntegration agentId="agent_01jy34sj32eqwvbjjv6bmrhwxd" />
 
       {/* Animated Background Elements */}
       <div className="absolute inset-0 opacity-10">
