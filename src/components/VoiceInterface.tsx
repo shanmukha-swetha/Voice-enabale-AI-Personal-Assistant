@@ -37,29 +37,27 @@ const VoiceInterface = () => {
         </div>
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex items-center justify-center p-4">
-        <div className="w-full max-w-4xl mx-auto">
-          <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-cyan-500/20 p-8 shadow-2xl">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-semibold text-white mb-2">
-                Start Your Conversation
-              </h2>
-              <p className="text-slate-300">
-                Click the microphone below to begin speaking with Aurora
-              </p>
-            </div>
-            
-            {/* ElevenLabs Embed */}
-            <div className="flex justify-center">
-              <elevenlabs-convai agent-id="agent_01jy34sj32eqwvbjjv6bmrhwxd"></elevenlabs-convai>
-            </div>
-            
-            <div className="mt-8 text-center">
-              <p className="text-xs text-slate-400">
-                Powered by ElevenLabs Conversational AI
-              </p>
-            </div>
+      {/* Main Content Area - Centered Widget */}
+      <div className="flex-1 flex items-center justify-center p-8">
+        <div className="flex flex-col items-center space-y-6">
+          <div className="text-center mb-4">
+            <h2 className="text-2xl font-semibold text-white mb-2">
+              Start Your Conversation
+            </h2>
+            <p className="text-slate-300">
+              Click the microphone below to begin speaking with Aurora
+            </p>
+          </div>
+          
+          {/* ElevenLabs Widget - Centered */}
+          <div className="flex justify-center">
+            <elevenlabs-convai agent-id="agent_01jy34sj32eqwvbjjv6bmrhwxd"></elevenlabs-convai>
+          </div>
+          
+          <div className="text-center mt-6">
+            <p className="text-xs text-slate-400">
+              Powered by ElevenLabs Conversational AI
+            </p>
           </div>
         </div>
       </div>
