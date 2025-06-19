@@ -17,101 +17,196 @@ const VoiceInterface = () => {
       document.head.appendChild(script);
     }
 
-    // Add CSS to hide chat windows and text interfaces
+    // Add aggressive CSS to hide all chat interfaces
     const hideStyle = document.createElement('style');
     hideStyle.textContent = `
       /* Hide all potential chat interfaces */
       [data-testid*="chat"],
+      [data-testid*="message"],
+      [data-testid*="input"],
+      [data-testid*="text"],
       .chat-container,
       .chat-window,
       .chat-interface,
       .text-chat,
       .message-container,
       .conversation-panel,
-      div[style*="position: fixed"],
-      div[style*="position: absolute"] iframe,
-      /* Hide ElevenLabs chat components */
+      .conversation-window,
+      .chat-widget,
+      .message-input,
+      .chat-input,
+      .text-input,
+      .input-container,
+      /* Hide ElevenLabs specific elements */
+      elevenlabs-convai div[style*="position: fixed"],
+      elevenlabs-convai div[style*="position: absolute"],
+      elevenlabs-convai div[style*="z-index"],
       elevenlabs-convai div[style*="background"],
       elevenlabs-convai div[style*="border"],
       elevenlabs-convai div[style*="box-shadow"],
-      elevenlabs-convai > div > div,
-      /* Hide any white/light colored popup containers */
+      elevenlabs-convai div[style*="width"],
+      elevenlabs-convai div[style*="height"],
+      elevenlabs-convai > div > div:not([style*="display: flex"]),
+      elevenlabs-convai iframe,
+      /* Hide any white/light colored containers */
       div[style*="background-color: white"],
       div[style*="background-color: #fff"],
+      div[style*="background-color: #ffffff"],
       div[style*="background: white"],
       div[style*="background: #fff"],
-      /* Hide text input areas */
+      div[style*="background: #ffffff"],
+      div[style*="background-color: rgb(255, 255, 255)"],
+      /* Hide text inputs */
+      input[type="text"],
       input[placeholder*="message"],
+      input[placeholder*="type"],
+      input[placeholder*="chat"],
       textarea[placeholder*="message"],
-      .message-input,
-      .chat-input {
+      textarea[placeholder*="type"],
+      textarea[placeholder*="chat"],
+      /* Hide modals and overlays */
+      .modal,
+      .overlay,
+      [role="dialog"],
+      [role="modal"],
+      [role="textbox"],
+      /* Hide any element that might be a chat bubble or message */
+      div[style*="border-radius"][style*="padding"],
+      div[style*="border-radius"][style*="background"] {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
         pointer-events: none !important;
+        position: absolute !important;
+        left: -9999px !important;
+        top: -9999px !important;
       }
       
-      /* Ensure only the voice button is visible */
+      /* Ensure elevenlabs-convai only shows voice button */
       elevenlabs-convai {
         background: transparent !important;
         border: none !important;
+        position: relative !important;
       }
       
-      elevenlabs-convai * {
-        background: transparent !important;
-      }
-      
-      /* Hide any modal or overlay */
-      .modal,
-      .overlay,
-      [role="dialog"],
-      [role="modal"] {
+      /* Hide everything except the microphone button */
+      elevenlabs-convai > * {
         display: none !important;
+      }
+      
+      /* Show only the voice/microphone button */
+      elevenlabs-convai button,
+      elevenlabs-convai [role="button"],
+      elevenlabs-convai div[style*="cursor: pointer"] {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
       }
     `;
     document.head.appendChild(hideStyle);
 
-    // Continuously monitor and hide any chat elements that appear
-    const observer = new MutationObserver(() => {
-      // Hide chat elements
-      const chatElements = document.querySelectorAll(`
-        [data-testid*="chat"],
-        .chat-container,
-        .chat-window,
-        .chat-interface,
-        .text-chat,
-        .message-container,
-        .conversation-panel,
-        input[placeholder*="message"],
-        textarea[placeholder*="message"],
-        .message-input,
-        .chat-input,
-        div[style*="background-color: white"],
-        div[style*="background-color: #fff"],
-        div[style*="background: white"],
-        div[style*="background: #fff"]
-      `);
-      
-      chatElements.forEach(element => {
-        (element as HTMLElement).style.display = 'none';
-        (element as HTMLElement).style.visibility = 'hidden';
-        (element as HTMLElement).style.opacity = '0';
-        (element as HTMLElement).style.pointerEvents = 'none';
-      });
+    // Ultra-aggressive observer to kill any chat elements
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach(() => {
+        // Target all potential chat elements
+        const chatSelectors = [
+          '[data-testid*="chat"]',
+          '[data-testid*="message"]',
+          '[data-testid*="input"]',
+          '[data-testid*="text"]',
+          '.chat-container',
+          '.chat-window',
+          '.chat-interface',
+          '.text-chat',
+          '.message-container',
+          '.conversation-panel',
+          '.conversation-window',
+          '.chat-widget',
+          '.message-input',
+          '.chat-input',
+          '.text-input',
+          '.input-container',
+          'input[type="text"]',
+          'input[placeholder*="message"]',
+          'input[placeholder*="type"]',
+          'input[placeholder*="chat"]',
+          'textarea[placeholder*="message"]',
+          'textarea[placeholder*="type"]',
+          'textarea[placeholder*="chat"]',
+          'div[style*="background-color: white"]',
+          'div[style*="background-color: #fff"]',
+          'div[style*="background-color: #ffffff"]',
+          'div[style*="background: white"]',
+          'div[style*="background: #fff"]',
+          'div[style*="background: #ffffff"]',
+          'div[style*="background-color: rgb(255, 255, 255)"]',
+          '[role="dialog"]',
+          '[role="modal"]',
+          '[role="textbox"]'
+        ];
 
-      // Also hide any fixed/absolute positioned divs that might be chat windows
-      const fixedElements = document.querySelectorAll('div[style*="position: fixed"], div[style*="position: absolute"]');
-      fixedElements.forEach(element => {
-        const htmlElement = element as HTMLElement;
-        if (htmlElement.style.backgroundColor === 'white' || 
-            htmlElement.style.backgroundColor === '#fff' ||
-            htmlElement.style.background === 'white' ||
-            htmlElement.style.background === '#fff' ||
-            htmlElement.innerHTML.includes('Send a message') ||
-            htmlElement.querySelector('input') ||
-            htmlElement.querySelector('textarea')) {
-          htmlElement.style.display = 'none';
-        }
+        chatSelectors.forEach(selector => {
+          const elements = document.querySelectorAll(selector);
+          elements.forEach(element => {
+            const htmlElement = element as HTMLElement;
+            htmlElement.style.display = 'none';
+            htmlElement.style.visibility = 'hidden';
+            htmlElement.style.opacity = '0';
+            htmlElement.style.pointerEvents = 'none';
+            htmlElement.style.position = 'absolute';
+            htmlElement.style.left = '-9999px';
+            htmlElement.style.top = '-9999px';
+          });
+        });
+
+        // Specifically target ElevenLabs widget children
+        const convaiElements = document.querySelectorAll('elevenlabs-convai');
+        convaiElements.forEach(convai => {
+          const children = convai.querySelectorAll('*');
+          children.forEach(child => {
+            const htmlChild = child as HTMLElement;
+            // Hide everything except buttons
+            if (!htmlChild.matches('button') && 
+                !htmlChild.matches('[role="button"]') && 
+                !htmlChild.style.cursor?.includes('pointer')) {
+              htmlChild.style.display = 'none';
+              htmlChild.style.visibility = 'hidden';
+              htmlChild.style.opacity = '0';
+              htmlChild.style.pointerEvents = 'none';
+            }
+          });
+        });
+
+        // Kill any fixed/absolute positioned elements that look like chat windows
+        const fixedElements = document.querySelectorAll('div[style*="position: fixed"], div[style*="position: absolute"]');
+        fixedElements.forEach(element => {
+          const htmlElement = element as HTMLElement;
+          const computedStyle = window.getComputedStyle(htmlElement);
+          const hasWhiteBackground = computedStyle.backgroundColor === 'rgb(255, 255, 255)' || 
+                                   computedStyle.backgroundColor === 'white' ||
+                                   computedStyle.backgroundColor === '#fff' ||
+                                   computedStyle.backgroundColor === '#ffffff';
+          
+          if (hasWhiteBackground || 
+              htmlElement.innerHTML.includes('Send') ||
+              htmlElement.innerHTML.includes('message') ||
+              htmlElement.innerHTML.includes('Type') ||
+              htmlElement.querySelector('input') ||
+              htmlElement.querySelector('textarea') ||
+              htmlElement.querySelector('[role="textbox"]')) {
+            htmlElement.style.display = 'none';
+            htmlElement.style.visibility = 'hidden';
+            htmlElement.style.opacity = '0';
+            htmlElement.style.pointerEvents = 'none';
+            htmlElement.style.position = 'absolute';
+            htmlElement.style.left = '-9999px';
+            htmlElement.style.top = '-9999px';
+          }
+        });
       });
     });
 
@@ -119,12 +214,28 @@ const VoiceInterface = () => {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['style', 'class']
+      attributeFilter: ['style', 'class', 'data-testid']
     });
+
+    // Additional cleanup interval
+    const cleanupInterval = setInterval(() => {
+      const allDivs = document.querySelectorAll('div');
+      allDivs.forEach(div => {
+        if (div.innerHTML.includes('Send a message') || 
+            div.innerHTML.includes('Type a message') ||
+            div.querySelector('input[type="text"]') ||
+            div.querySelector('textarea')) {
+          div.style.display = 'none';
+        }
+      });
+    }, 500);
 
     return () => {
       observer.disconnect();
-      document.head.removeChild(hideStyle);
+      clearInterval(cleanupInterval);
+      if (document.head.contains(hideStyle)) {
+        document.head.removeChild(hideStyle);
+      }
     };
   }, []);
 
