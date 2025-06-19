@@ -16,6 +16,17 @@ const VoiceInterface = () => {
       script.type = 'text/javascript';
       document.head.appendChild(script);
     }
+
+    // Hide any default chat UI that might appear
+    const hideDefaultChatUI = () => {
+      const chatElements = document.querySelectorAll('[data-testid*="chat"], .chat-container, .chat-window');
+      chatElements.forEach(element => {
+        (element as HTMLElement).style.display = 'none';
+      });
+    };
+
+    // Run after a short delay to ensure elements are loaded
+    setTimeout(hideDefaultChatUI, 1000);
   }, []);
 
   return (
@@ -31,7 +42,7 @@ const VoiceInterface = () => {
         </div>
         <div className="flex flex-col">
           <span className="text-xl font-bold tracking-wider text-cyan-400">AURORA</span>
-          <span className="text-xs text-green-400 font-medium">CONNECTED</span>
+          <span className="text-xs text-green-400 font-medium">VOICE READY</span>
         </div>
       </div>
 
@@ -93,8 +104,17 @@ const VoiceInterface = () => {
             </div>
           </div>
           
+          {/* Voice-only ElevenLabs Widget */}
           <div className="flex justify-center">
-            <elevenlabs-convai agent-id="agent_01jy34sj32eqwvbjjv6bmrhwxd"></elevenlabs-convai>
+            <elevenlabs-convai 
+              agent-id="agent_01jy34sj32eqwvbjjv6bmrhwxd"
+              style="display: block; border: none; background: transparent;"
+            ></elevenlabs-convai>
+          </div>
+
+          <div className="text-center mt-4">
+            <p className="text-cyan-400 text-sm font-medium">Click the button above to start talking with Aurora</p>
+            <p className="text-slate-400 text-xs mt-1">Voice conversation only - no chat windows</p>
           </div>
         </div>
       </div>
